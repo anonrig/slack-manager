@@ -47,6 +47,8 @@ class meeting {
                     convo.say('Thank you @' + participant.name);
                 });
 
+                convo.say('Meeting has ended.');
+
                 convo.on('end', (convo) => {
                     resolve();
                 });
