@@ -46,6 +46,12 @@ class manager {
                         that.destroy(channelId);
                     });
             });
+
+        this.controller
+            .hears(['status'], 'direct_mention', (bot, message) => {
+                bot.reply(message, 'Active meetings are ' +
+                    JSON.stringify(that.meetings));
+            });
     }
 }
 
