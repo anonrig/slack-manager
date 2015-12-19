@@ -35,7 +35,7 @@ class manager {
                 let channelId = message.channel;
 
                 if (that.meetingExist(channelId))
-                    return bot.say(message,
+                    return bot.reply(message,
                         'Sorry, there is an existing meeting in this channel');
 
                 let meeting = that.create(channelId);
