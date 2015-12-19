@@ -13,7 +13,7 @@ class manager {
     }
 
     meetingExist(channelId) {
-        return !this.meetings[channelId];
+        return this.meetings[channelId];
     }
 
     create(channelId) {
@@ -24,6 +24,7 @@ class manager {
 
     destroy(channelId) {
         this.meetings[channelId] = null;
+
     }
 
     bindEvents_() {
@@ -42,9 +43,7 @@ class manager {
                 meeting
                     .start(bot, message)
                     .then(() => {
-                        bot.say(message,
-                            'Thanks. See you tomorrow at 10:00 AM');
-                        meeting.destroy(channelId);
+                        that.destroy(channelId);
                     });
             });
     }
