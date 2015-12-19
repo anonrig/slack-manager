@@ -6,12 +6,14 @@ const _ = require('lodash');
 
 
 class manager {
-    constructor() {
+    constructor(controller) {
         this.meetings = {};
+        this.controller = controller;
+        this.bindEvents_();
     }
 
-    meetingExist(id) {
-        return !this.meetings && this.meetings[id];
+    meetingExist(channelId) {
+        return !this.meetings[channelId];
     }
 
     create(channelId) {
@@ -22,6 +24,29 @@ class manager {
 
     destroy(channelId) {
         this.meetings[channelId] = null;
+    }
+
+    bindEvents_() {
+        let that = this;
+
+        this.controller
+            .hears(['start meeting'], 'ambient', (bot, message) => {
+                let channelId = message.channel;
+
+                if (that.meetingExist(channelId))
+                    return bot.say(message,
+                        'Sorry, there is an existing meeting in this channel');
+
+                let meeting = that.create(channelId);
+
+                meeting
+                    .start(bot, message)
+                    .then(() => {
+                        console.log('Conversation ended. Destroying...');
+                        bot.say('Thanks. See you tomorrow at 10:00 AM');
+                        meeting.destroy(channelId);
+                    });
+            });
     }
 }
 
