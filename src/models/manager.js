@@ -11,7 +11,7 @@ class manager {
     }
 
     meetingExist(id) {
-        return this.meetings && this.meetings[id];
+        return !this.meetings && this.meetings[id];
     }
 
     create(channelId) {
@@ -21,7 +21,7 @@ class manager {
     }
 
     destroy(channelId) {
-        this.meetings[channelId] = undefined;
+        this.meetings[channelId] = null;
     }
 }
 
