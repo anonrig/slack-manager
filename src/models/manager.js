@@ -6,27 +6,54 @@ const _ = require('lodash');
 
 
 class manager {
+
+    /**
+     * @constructor
+     * @param  {Object} controller
+     */
     constructor(controller) {
         this.meetings = {};
         this.controller = controller;
         this.bindEvents_();
     }
 
+    /**
+     * meetingExist - Check if a meeting is ongoing.
+     *
+     * @param  {String} channelId
+     * @return {boolean}
+     */
     meetingExist(channelId) {
         return this.meetings[channelId];
     }
 
+
+    /**
+     * create - Creates a meeting.
+     *
+     * @param  {String} channelId
+     * @return {Meeting}
+     */
     create(channelId) {
         let meeting = new Meeting();
         this.meetings[channelId] = meeting;
         return meeting;
     }
 
+    /**
+     * destroy - Destroys an existing meeting.
+     *
+     * @param  {String} channelId
+     */
     destroy(channelId) {
         this.meetings[channelId] = null;
-
     }
 
+    /**
+     * @private
+     *
+     * bindEvents_ - Bind interval events.
+     */
     bindEvents_() {
         let that = this;
 
@@ -54,5 +81,6 @@ class manager {
             });
     }
 }
+
 
 module.exports = manager;

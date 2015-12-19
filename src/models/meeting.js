@@ -5,6 +5,12 @@ const _ = require('lodash');
 
 
 class meeting {
+
+    /**
+     * @constructor
+     *
+     * @param  {String} channelId
+     */
     constructor(channelId) {
         this.channelId = channelId;
         this.participants = [
@@ -21,6 +27,14 @@ class meeting {
         this.answers = {};
     }
 
+
+    /**
+     * start - Starts a conversation
+     *
+     * @param  {Object} bot
+     * @param  {String} message
+     * @return {Promise}
+     */
     start(bot, message) {
         let that = this;
 
