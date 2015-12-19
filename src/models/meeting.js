@@ -21,31 +21,11 @@ class meeting {
         this.answers = {};
     }
 
-
-    /**
-     * @private
-     * @param  {String} answer
-     */
-    checkAnswers_(answer, convo) {
-
-        switch (answer.text) {
-            case 'stop':
-                convo.say('Conversation terminated.');
-                convo.stop();
-                break;
-            default:
-                break;
-        }
-
-    }
-
     start(bot, message) {
         let that = this;
 
         return new Promise((resolve, reject) => {
             bot.startConversation(message, (err, convo) => {
-                convo.say('Started');
-
                 _.forEach(that.participants, (participant) => {
                     convo.say('Hello @' + participant.name +
                         ', it is your turn now.');
@@ -54,8 +34,6 @@ class meeting {
 
                     _.forEach(that.questions, (question, index) => {
                         convo.ask(that.questions[index], (msg, convo) => {
-                            that.checkAnswers_(msg, convo);
-
                             that.answers[participant.id].push({
                                 question: question,
                                 answer: msg.text,
