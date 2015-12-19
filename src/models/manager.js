@@ -42,8 +42,8 @@ class manager {
                 meeting
                     .start(bot, message)
                     .then(() => {
-                        console.log('Conversation ended. Destroying...');
-                        bot.say('Thanks. See you tomorrow at 10:00 AM');
+                        bot.say(message,
+                            'Thanks. See you tomorrow at 10:00 AM');
                         meeting.destroy(channelId);
                     });
             });
