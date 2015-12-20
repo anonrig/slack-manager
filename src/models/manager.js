@@ -46,7 +46,7 @@ class manager {
      * @param  {String} channelId
      */
     destroy(channelId) {
-        this.meetings[channelId] = null;
+        delete this.meetings[channelId];
     }
 
     /**
