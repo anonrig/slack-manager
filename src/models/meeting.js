@@ -1,8 +1,8 @@
 'use strict';
 
 const _ = require('lodash');
-
-
+const MailerModel = require('./mailer');
+const config = require('../config');
 
 class meeting {
 
@@ -13,18 +13,16 @@ class meeting {
      */
     constructor(channelId) {
         this.channelId = channelId;
-        this.participants = [
-            {
-                name: 'yagiz',
-                id: '5'
-            }
-        ];
         this.questions = [
             'What did you do yesterday?',
             'What are you going to do today?',
             'Did you encounter any problems?'
         ];
         this.answers = {};
+    }
+
+    setMembers(members) {
+        this.participants = members;
     }
 
 
@@ -37,6 +35,7 @@ class meeting {
      */
     start(bot, message) {
         let that = this;
+
 
         return new Promise((resolve, reject) => {
             bot.startConversation(message, (err, convo) => {

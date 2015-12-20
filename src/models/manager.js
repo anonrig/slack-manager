@@ -2,8 +2,8 @@
 
 const Meeting = require('./meeting');
 const _ = require('lodash');
-
-
+const config = require('../config');
+const Channel = require('./channel');
 
 class manager {
 
@@ -14,6 +14,7 @@ class manager {
     constructor(controller) {
         this.meetings = {};
         this.controller = controller;
+
         this.bindEvents_();
     }
 
@@ -66,12 +67,22 @@ class manager {
                         'Sorry, there is an existing meeting in this channel');
 
                 let meeting = that.create(channelId);
+                let channel = new Channel(that.controller);
 
-                meeting
-                    .start(bot, message)
+                channel
+                    .getChannelMembers(channelId)
+                    .then((members) => {
+                        meeting.setMembers(members);
+
+                        return meeting
+                            .start(bot, message);
+                    })
                     .then(() => {
                         that.destroy(channelId);
-                    });
+                    })
+                    .catch((err) => {
+                        console.error('Error: ${err}');
+                    })
             });
 
         this.controller
