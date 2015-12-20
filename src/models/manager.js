@@ -70,7 +70,7 @@ class manager {
                 let channel = new Channel(that.controller);
 
                 channel
-                    .getChannelMembers(channelId)
+                    .getMembers(channelId)
                     .then((members) => {
                         meeting.setMembers(members);
 

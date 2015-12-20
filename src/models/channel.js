@@ -15,7 +15,7 @@ class channel {
         });
     }
 
-    getChannelMembers(channelId) {
+    getMembers(channelId) {
         let that = this;
 
         return new Promise((resolve, reject) => {
