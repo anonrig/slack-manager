@@ -7,7 +7,8 @@
     "async": "^1.5.0",
     "botkit": "^0.0.4",
     "lodash": "^3.10.1",
-    "nconf": "^0.8.2"
+    "nconf": "^0.8.2",
+    "nodemailer": "^1.10.0"
   },
   "devDependencies": {},
   "scripts": {
