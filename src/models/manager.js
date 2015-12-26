@@ -36,7 +36,7 @@ class manager {
      * @return {Meeting}
      */
     create(channelId) {
-        let meeting = new Meeting();
+        let meeting = new Meeting(channelId);
         this.meetings[channelId] = meeting;
         return meeting;
     }
@@ -61,7 +61,7 @@ class manager {
         this.controller
             .hears(['start meeting'], 'ambient', (bot, message) => {
                 let channelId = message.channel;
-
+                
                 if (that.meetingExist(channelId))
                     return bot.reply(message,
                         'Sorry, there is an existing meeting in this channel');
@@ -81,7 +81,7 @@ class manager {
                         that.destroy(channelId);
                     })
                     .catch((err) => {
-                        console.error('Error: ${err}');
+                        console.error('Error', err);
                     })
             });
 
