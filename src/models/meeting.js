@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const MailerModel = require('./mailer');
 const config = require('../config');
+const async = require('async');
 
 class meeting {
 
@@ -38,8 +39,11 @@ class meeting {
 
 
         return new Promise((resolve, reject) => {
-            bot.startConversation(message, (err, convo) => {
-                _.forEach(that.participants, (participant) => {
+
+            async.eachSeries(that.participants, (participant, cb) => {
+                message.user = participant.id;
+
+                bot.startConversation(message, (err, convo) => {
                     convo.say('Hello @' + participant.name +
                         ', it is your turn now.');
 
@@ -58,13 +62,20 @@ class meeting {
                     });
 
                     convo.say('Thank you @' + participant.name);
+
+                    convo.on('end', (msg) => {
+                        cb();
+                    });
+                });
+            }, (err) => {
+                if(err) return reject(err);
+
+                bot.say({
+                    text: 'Meeting has ended.',
+                    channel: that.channelId
                 });
 
-                convo.say('Meeting has ended.');
-
-                convo.on('end', (convo) => {
-                    resolve();
-                });
+                resolve();
             });
         });
     }
