@@ -31,14 +31,14 @@ class channel {
             return new Promise((resolve, reject) => {
                 let channelMembers = [];
 
+                // TODO: Do it parallel.
                 async.each(members, (member, cb) => {
                     that.webApi.users.info({
                         user: member
                     }, (err, response) => {
                         if (err) return cb(err);
 
-                        // TODO: Fix this in a more clear way.
-                        if (response.user.name != 'manager')
+                        if (!response.user.is_bot)
                             channelMembers.push(response.user);
 
                         cb();
