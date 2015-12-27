@@ -37,6 +37,18 @@ class mailer {
     send() {
         this.transporter.sendMail(this.options);
     }
+
+    static mailify(answers){
+        let mailContent = "Hello, \nToday's meeting results are shown below.\n";
+        answers.forEach((answer) => {
+            mailContent += "\n" + answer.participant.real_name + " responded:\n\n";
+            answer.answer.forEach((entry, index) => {
+                mailContent += entry.question + "\n" + entry.answer + "\n";
+            });
+        });
+
+        return mailContent;
+    }
 }
 
 
