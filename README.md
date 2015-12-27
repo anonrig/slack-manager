@@ -8,6 +8,8 @@ Advantages of Slack Manager from other services:
   - Configurable mail settings.
   - Configurable questions.
 
+![alt text](http://new.tinygrab.com/783f33d7b18d7bcd72f1de9785bcbf86e10c3eb82a.png "Slack-Manager")
+
 ### Create your Slack bot.
 
   - First make a bot integration inside of your Slack channel. Go here: `https://my.slack.com/services/new/bot`
