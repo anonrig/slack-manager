@@ -11,6 +11,9 @@
     "nodemailer": "^1.10.0"
   },
   "devDependencies": {},
+  "engines": {
+    "node": ">= 4.0.0"
+  },
   "scripts": {
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
