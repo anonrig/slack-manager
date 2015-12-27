@@ -39,8 +39,8 @@ For example for Gmail settings: change your settings file by:
         "token": "YOUR TOKEN HERE",
         "mailer": {
             "service": "Gmail",
-            "email: "email@address.com",
-            "password: "mySuperFancyPassword"
+            "email": "email@address.com",
+            "password": "mySuperFancyPassword"
         }
     }
 ```
