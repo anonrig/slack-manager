@@ -1,6 +1,6 @@
 {
   "name": "slack-project-manager",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "src/index.js",
   "dependencies": {
@@ -12,8 +12,9 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Yagiz Nizipli",
+  "author": "Yagiz Nizipli <yagiznizipli@me.com>, Kaan Kara <h.kaankara@hotmail.com>",
   "license": "MIT"
 }
