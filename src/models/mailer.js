@@ -12,7 +12,13 @@ class mailer {
      */
     constructor(content, opt_settings) {
         this.content = content;
-        this.transporter = nodemailer.createTransport(opt_settings || {});
+        this.transporter = nodemailer.createTransport({
+            service: config.get('mailAccount:service'),
+            auth: {
+                user: config.get('mailAccount:email'),
+                pass: config.get('mailAccount:pass')
+            }
+        } || {});
         this.options = {
             from: config.get('mail:from'),
             to: config.get('mail:to'),

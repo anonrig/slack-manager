@@ -1,7 +1,7 @@
 {
     "port": 3000,
     "mail": {
-      "from": "MAIL HERE",
-      "to": "MAIL HERE"
+      "from": "Name Surname <YOUR MAIL>",
+      "to": "Recepients(can write multiple separating with a comma ',')"
     }
 }
