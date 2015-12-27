@@ -19,7 +19,7 @@ class meeting {
             'What are you going to do today?',
             'Did you encounter any problems?'
         ];
-        this.answers = {};
+        this.answers = [];
     }
 
     setMembers(members) {
@@ -47,11 +47,11 @@ class meeting {
                     convo.say('Hello @' + participant.name +
                         ', it is your turn now.');
 
-                    that.answers[participant.id] = [];
+                    let userAnswers = [];
 
                     _.forEach(that.questions, (question, index) => {
                         convo.ask(that.questions[index], (msg, convo) => {
-                            that.answers[participant.id].push({
+                            userAnswers.push({
                                 question: question,
                                 answer: msg.text,
                                 createdAt: Date.now()
@@ -64,6 +64,11 @@ class meeting {
                     convo.say('Thank you @' + participant.name);
 
                     convo.on('end', (msg) => {
+                        that.answers.push({
+                            participant: participant,
+                            answer: userAnswers
+                        });
+
                         cb();
                     });
                 });
@@ -71,10 +76,13 @@ class meeting {
                 if(err) return reject(err);
 
                 bot.say({
-                    text: 'Meeting has ended.',
+                    text: 'Meeting has ended. Results are mailed to ' + config.get('mail:to'),
                     channel: that.channelId
                 });
 
+                let mailContent = MailerModel.mailify(that.answers);
+                let mailSender = new MailerModel(mailContent);
+                mailSender.send();
                 resolve();
             });
         });
