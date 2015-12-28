@@ -4,6 +4,8 @@ const _ = require('lodash');
 const MailerModel = require('./mailer');
 const config = require('../config');
 const async = require('async');
+const EventEmitter = require('events').EventEmitter;
+
 
 class meeting {
 
@@ -20,6 +22,12 @@ class meeting {
             'Did you encounter any problems?'
         ];
         this.answers = [];
+
+        this.eventEmitter = new EventEmitter();
+    }
+
+    getEventEmitter() {
+        return this.eventEmitter;
     }
 
     setMembers(members) {
@@ -36,21 +44,35 @@ class meeting {
      */
     start(bot, message) {
         let that = this;
-
+        let participantCount = 0;
 
         return new Promise((resolve, reject) => {
-
-            async.eachSeries(that.participants, (participant, cb) => {
+            async.whilst(() => {
+                return participantCount < that.participants.length
+            },
+            (cb) => {
+                let participant = that.participants[participantCount];
                 message.user = participant.id;
 
                 bot.startConversation(message, (err, convo) => {
                     convo.say('Hello @' + participant.name +
                         ', it is your turn now.');
 
+                    let skipParticipant = () => {
+                        that.participants.push(participant);
+                        convo.stop();
+                    };
+
+                    that.eventEmitter.once('skip', skipParticipant);
+
                     let userAnswers = [];
 
                     _.forEach(that.questions, (question, index) => {
                         convo.ask(that.questions[index], (msg, convo) => {
+                            if (msg.text == 'skip') {
+                                that.eventEmitter.emit('skip');
+                            }
+
                             userAnswers.push({
                                 question: question,
                                 answer: msg.text,
@@ -68,6 +90,10 @@ class meeting {
                             participant: participant,
                             answer: userAnswers
                         });
+
+                        that.eventEmitter.removeListener('skip', skipParticipant);
+
+                        participantCount++;
 
                         cb();
                     });
