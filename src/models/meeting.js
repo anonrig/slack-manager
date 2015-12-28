@@ -94,11 +94,12 @@ class meeting {
 
                     convo.say('Thank you @' + participant.name);
 
-                    convo.on('end', (msg) => {
-                        that.answers.push({
-                            participant: participant,
-                            answer: userAnswers
-                        });
+                    convo.on('end', (convo) => {
+                        if (convo.status != 'stopped')
+                            that.answers.push({
+                                participant: participant,
+                                answer: userAnswers
+                            });
 
                         that.eventEmitter
                             .removeListener('skip', skipParticipant)
