@@ -92,12 +92,12 @@ class manager {
             });
 
         this.controller
-            .hears(['skip'], 'ambient', (bot, message) => {
-                if (!that.meetingExist(message.channel)) return;
-
+            .hears(['skip', 'dismiss'], 'ambient', (bot, message) => {
                 let meeting = that.meetings[message.channel];
 
-                meeting.getEventEmitter().emit('skip');
+                if (!meeting) return;
+
+                meeting.getEventEmitter().emit(message.text);
             });
     }
 }

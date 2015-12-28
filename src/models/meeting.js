@@ -63,14 +63,23 @@ class meeting {
                         convo.stop();
                     };
 
-                    that.eventEmitter.once('skip', skipParticipant);
+                    let dismissParticipant = () => {
+                        convo.stop();
+                    };
+
+                    that.eventEmitter
+                        .once('skip', skipParticipant)
+                        .once('dismiss', dismissParticipant);
 
                     let userAnswers = [];
 
                     _.forEach(that.questions, (question, index) => {
                         convo.ask(that.questions[index], (msg, convo) => {
-                            if (msg.text == 'skip') {
-                                that.eventEmitter.emit('skip');
+                            switch (msg.text) {
+                                case 'skip':
+                                    that.eventEmitter.emit('skip'); break;
+                                case 'dismiss':
+                                    that.eventEmitter.emit('dismiss'); break;
                             }
 
                             userAnswers.push({
@@ -91,10 +100,11 @@ class meeting {
                             answer: userAnswers
                         });
 
-                        that.eventEmitter.removeListener('skip', skipParticipant);
+                        that.eventEmitter
+                            .removeListener('skip', skipParticipant)
+                            .removeListener('dismiss', dismissParticipant);
 
                         participantCount++;
-
                         cb();
                     });
                 });
@@ -102,7 +112,8 @@ class meeting {
                 if(err) return reject(err);
 
                 bot.say({
-                    text: 'Meeting has ended. Results are mailed to ' + config.get('mail:to'),
+                    text: 'Meeting has ended. Results are mailed to ' +
+                        config.get('mail:to'),
                     channel: that.channelId
                 });
 
