@@ -35,41 +35,41 @@ Mailer service uses nodemailer's transport methods. Therefore, for better unders
 
 For example for Gmail settings: change your settings file by:
 ```
-    {
-        "token": "YOUR SLACK TOKEN HERE",
-        "mailer": {
-            "service": "Gmail",
-            "email": "email@address.com",
-            "password": "mySuperFancyPassword"
-        }
+{
+    "token": "YOUR SLACK TOKEN HERE",
+    "mailer": {
+        "service": "Gmail",
+        "email": "email@address.com",
+        "password": "mySuperFancyPassword"
     }
+}
 ```
 
-### Usage
+## Usage
 
-## Start your bot.
+### Start your bot.
 
 ```
 npm start
 ```
 
-## Commands
+### Commands
 
-# start meeting
+- ``` start meeting ```
 
-Starts meeting. To be able to start meeting with this command your bot should be invited to the channel.
+    Starts meeting. To be able to start meeting with this command your bot should be invited to the channel.
 
-# skip
+- ``` skip ```
 
-Skips the current user's turn and at the end of the meeting asks again to the skipped users. Can be skipped more than once.
+    Skips the current user's turn and at the end of the meeting asks again to the skipped users. Can be skipped more than once.
 
-# dismiss
+- ``` dismiss ```
 
-Dismisses the current user, in other words kicks user out of meeting for example in case of an absence.
+    Dismisses the current user, in other words kicks user out of meeting for example in case of an absence.
 
-# quit
+- ``` quit ```
 
-Ends the meeting. Meeting can be restarted by again typing 'start meeting'.
+    Ends the meeting. Meeting can be restarted by again typing 'start meeting'.
 
 ### Version
 0.1.0
