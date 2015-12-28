@@ -97,7 +97,7 @@ class manager {
 
                 if (!meeting) return;
 
-                meeting.getEventEmitter().emit(message.text);
+                meeting.emit(message.text);
             });
     }
 }

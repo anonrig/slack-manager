@@ -7,7 +7,7 @@ const async = require('async');
 const EventEmitter = require('events').EventEmitter;
 
 
-class meeting {
+class meeting extends EventEmitter {
 
     /**
      * @constructor
@@ -15,6 +15,7 @@ class meeting {
      * @param  {String} channelId
      */
     constructor(channelId) {
+        super();
         this.channelId = channelId;
         this.questions = [
             'What did you do yesterday?',
@@ -22,12 +23,6 @@ class meeting {
             'Did you encounter any problems?'
         ];
         this.answers = [];
-
-        this.eventEmitter = new EventEmitter();
-    }
-
-    getEventEmitter() {
-        return this.eventEmitter;
     }
 
     setMembers(members) {
@@ -67,8 +62,7 @@ class meeting {
                         convo.stop();
                     };
 
-                    that.eventEmitter
-                        .once('skip', skipParticipant)
+                    that.once('skip', skipParticipant)
                         .once('dismiss', dismissParticipant);
 
                     let userAnswers = [];
@@ -77,9 +71,9 @@ class meeting {
                         convo.ask(that.questions[index], (msg, convo) => {
                             switch (msg.text) {
                                 case 'skip':
-                                    that.eventEmitter.emit('skip'); break;
+                                    that.emit('skip'); break;
                                 case 'dismiss':
-                                    that.eventEmitter.emit('dismiss'); break;
+                                    that.emit('dismiss'); break;
                             }
 
                             userAnswers.push({
@@ -101,8 +95,7 @@ class meeting {
                                 answer: userAnswers
                             });
 
-                        that.eventEmitter
-                            .removeListener('skip', skipParticipant)
+                        that.removeListener('skip', skipParticipant)
                             .removeListener('dismiss', dismissParticipant);
 
                         participantCount++;
