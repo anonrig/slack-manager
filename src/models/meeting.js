@@ -23,12 +23,17 @@ class meeting extends EventEmitter {
             'Did you encounter any problems?'
         ];
         this.answers = [];
+        this.isActive = true;
     }
 
     setMembers(members) {
         this.participants = members;
     }
 
+
+    finish(){
+        this.isActive = false;
+    }
 
     /**
      * start - Starts a conversation
@@ -49,6 +54,9 @@ class meeting extends EventEmitter {
                 let participant = that.participants[participantCount];
                 message.user = participant.id;
 
+                if(!that.isActive)
+                    return;
+
                 bot.startConversation(message, (err, convo) => {
                     convo.say('Hello @' + participant.name +
                         ', it is your turn now.');
@@ -62,8 +70,18 @@ class meeting extends EventEmitter {
                         convo.stop();
                     };
 
+                    let quitConversation = () => {
+                        bot.say({
+                            text: 'Meeting is over',
+                            channel: that.channelId
+                        });
+                        that.finish();
+                        convo.stop();
+                    };
+
                     that.once('skip', skipParticipant)
-                        .once('dismiss', dismissParticipant);
+                        .once('dismiss', dismissParticipant)
+                        .once('quit', quitConversation);
 
                     let userAnswers = [];
 
@@ -74,6 +92,8 @@ class meeting extends EventEmitter {
                                     that.emit('skip'); break;
                                 case 'dismiss':
                                     that.emit('dismiss'); break;
+                                case 'quit':
+                                    that.emit('quit'); break;
                             }
 
                             userAnswers.push({
@@ -96,7 +116,8 @@ class meeting extends EventEmitter {
                             });
 
                         that.removeListener('skip', skipParticipant)
-                            .removeListener('dismiss', dismissParticipant);
+                            .removeListener('dismiss', dismissParticipant)
+                            .removeListener('quit', quitConversation);
 
                         participantCount++;
                         cb();

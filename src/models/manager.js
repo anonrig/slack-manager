@@ -63,7 +63,14 @@ class manager {
             .hears(['start meeting'], 'ambient', (bot, message) => {
                 let channelId = message.channel;
 
-                if (that.meetingExist(channelId))
+                /**
+                 * TODO: After storage implementation get rid of this.
+                 */
+                let meeting = that.meetingExist(channelId);
+                if (meeting && !meeting.isActive)
+                    that.destroy(channelId);
+
+                if (meeting)
                     return bot.reply(message,
                         'Sorry, there is an existing meeting in this channel');
 
@@ -99,6 +106,17 @@ class manager {
 
                 meeting.emit(message.text);
             });
+
+        this.controller
+            .hears(['quit'], 'ambient', (bot, message) => {
+                let meeting = that.meetings[message.channel];
+
+                if (!meeting) return;
+
+                meeting.emit(message.text);
+                that.destroy(message.channel);
+            });
+
     }
 }
 

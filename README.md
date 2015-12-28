@@ -20,7 +20,7 @@ Copy the API token that Slack gives you. You'll need it in the next step.
 
 ### Installation
 
-Clone the repository by: 
+Clone the repository by:
 ```
 git clone https://github.com/anonrig/slack-manager
 ```
@@ -36,7 +36,7 @@ Mailer service uses nodemailer's transport methods. Therefore, for better unders
 For example for Gmail settings: change your settings file by:
 ```
     {
-        "token": "YOUR TOKEN HERE",
+        "token": "YOUR SLACK TOKEN HERE",
         "mailer": {
             "service": "Gmail",
             "email": "email@address.com",
@@ -45,11 +45,31 @@ For example for Gmail settings: change your settings file by:
     }
 ```
 
-### Start your bot.
+### Usage
+
+## Start your bot.
 
 ```
 npm start
 ```
+
+## Commands
+
+# start meeting
+
+Starts meeting. To be able to start meeting with this command your bot should be invited to the channel.
+
+# skip
+
+Skips the current user's turn and at the end of the meeting asks again to the skipped users. Can be skipped more than once.
+
+# dismiss
+
+Dismisses the current user, in other words kicks user out of meeting for example in case of an absence.
+
+# quit
+
+Ends the meeting. Meeting can be restarted by again typing 'start meeting'.
 
 ### Version
 0.1.0
