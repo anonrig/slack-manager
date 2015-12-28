@@ -63,9 +63,14 @@ class manager {
             .hears(['start meeting'], 'ambient', (bot, message) => {
                 let channelId = message.channel;
 
-                if (that.meetingExist(channelId) && !that.meetingExist(channelId).isActive)
+                /**
+                 * TODO: After storage implementation get rid of this.
+                 */
+                let meeting = that.meetingExist(channelId);
+                if (meeting && !meeting.isActive)
                     that.destroy(channelId);
-                if (that.meetingExist(channelId))
+
+                if (meeting)
                     return bot.reply(message,
                         'Sorry, there is an existing meeting in this channel');
 
