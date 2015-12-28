@@ -14,9 +14,9 @@ class manager {
     constructor(controller) {
         this.meetings = {};
         this.controller = controller;
-
         this.bindEvents_();
     }
+
 
     /**
      * meetingExist - Check if a meeting is ongoing.
@@ -41,6 +41,7 @@ class manager {
         return meeting;
     }
 
+
     /**
      * destroy - Destroys an existing meeting.
      *
@@ -61,7 +62,7 @@ class manager {
         this.controller
             .hears(['start meeting'], 'ambient', (bot, message) => {
                 let channelId = message.channel;
-                
+
                 if (that.meetingExist(channelId))
                     return bot.reply(message,
                         'Sorry, there is an existing meeting in this channel');
@@ -74,21 +75,29 @@ class manager {
                     .then((members) => {
                         meeting.setMembers(members);
 
-                        return meeting
-                            .start(bot, message);
+                        return meeting.start(bot, message);
                     })
                     .then(() => {
                         that.destroy(channelId);
                     })
                     .catch((err) => {
                         console.error('Error', err);
-                    })
+                    });
             });
 
         this.controller
             .hears(['status'], 'direct_mention', (bot, message) => {
                 bot.reply(message, 'Active meetings are ' +
                     JSON.stringify(that.meetings));
+            });
+
+        this.controller
+            .hears(['skip'], 'ambient', (bot, message) => {
+                if (!that.meetingExist(message.channel)) return;
+
+                let meeting = that.meetings[message.channel];
+
+                meeting.getEventEmitter().emit('skip');
             });
     }
 }
