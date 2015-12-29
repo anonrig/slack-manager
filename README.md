@@ -25,6 +25,11 @@ Clone the repository by:
 git clone https://github.com/anonrig/slack-manager
 ```
 
+Install from NPM
+```
+npm install slack-manager --save
+```
+
 Create your settings file.
 
 ```
