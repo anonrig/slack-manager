@@ -66,15 +66,15 @@ npm start
 
 - ``` skip ```
 
-    Skips the current user's turn and at the end of the meeting asks again to the skipped users. Can be skipped more than once.
+    Skips the current user's turn. Asks/Returns to the skipped users again at the end of the meeting. Can be skipped more than once.
 
 - ``` dismiss ```
 
-    Dismisses the current user, in other words kicks user out of meeting for example in case of an absence.
+    Dismisses the current user, in other words kicks the current user out of the meeting. Useful in case of an absence.
 
 - ``` quit ```
 
-    Ends the meeting. Meeting can be restarted by again typing 'start meeting'.
+    Ends the meeting. Meeting can be restarted by typing ``` start meeting ``` again.
 
 ### Tech
 
