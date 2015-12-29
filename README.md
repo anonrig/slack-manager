@@ -71,9 +71,6 @@ npm start
 
     Ends the meeting. Meeting can be restarted by again typing 'start meeting'.
 
-### Version
-0.1.0
-
 ### Tech
 
 Slack-Manager uses a number of open source projects to work properly:
