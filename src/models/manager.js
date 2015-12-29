@@ -74,7 +74,7 @@ class manager {
                     return bot.reply(message,
                         'Sorry, there is an existing meeting in this channel');
 
-                let meeting = that.create(channelId);
+                meeting = that.create(channelId);
                 let channel = new Channel(that.controller);
 
                 channel
