@@ -6,9 +6,12 @@
   "dependencies": {
     "async": "^1.5.0",
     "botkit": "^0.0.4",
+    "express": "^4.13.3",
     "lodash": "^3.10.1",
+    "mongoose": "^4.3.4",
     "nconf": "^0.8.2",
-    "nodemailer": "^1.10.0"
+    "nodemailer": "^1.10.0",
+    "redis": "^2.4.2"
   },
   "devDependencies": {},
   "engines": {
