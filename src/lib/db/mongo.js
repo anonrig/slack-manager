@@ -8,6 +8,12 @@ const config = require('../../config');
 
 mongoose.Promise = global.Promise;
 
+
+/**
+ * Connect Mongo.
+ *
+ * @returns {Promise}
+ */
 module.exports.connect = () => {
     return new Promise((resolve, reject) => {
         let connection = mongoose.connect('mongodb://' +

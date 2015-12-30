@@ -5,6 +5,10 @@
 const config = require('dusle-api/config');
 
 
+
+/**
+ * errorHandler - Grabs all uncatched errors and shows it in proper format.
+ */
 module.exports = function(err, req, res, next) {
     let shownError = {message: err.toString()};
 

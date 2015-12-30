@@ -11,9 +11,17 @@ const config = require('./config');
 app.enable('trust proxy');
 app.disable('x-powered-by');
 
+
+/**
+ * Use Jade for templating engine.
+ */
 app.set('views', 'src/views');
 app.set('view engine', 'jade');
 
+
+/**
+ * Redirect all urls to router.
+ */
 app.use(require('./router'));
 
 
