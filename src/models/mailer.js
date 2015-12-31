@@ -2,6 +2,7 @@
 
 const nodemailer = require('nodemailer');
 const config = require('../config');
+const jade = require('jade');
 
 
 
@@ -26,7 +27,7 @@ class mailer {
             from: config.get('mail:from'),
             to: config.get('mail:to'),
             subject: 'About your meeting today',
-            text: content || 'No body.'
+            html: content || 'No body.'
         };
     }
 
@@ -38,16 +39,12 @@ class mailer {
         this.transporter.sendMail(this.options);
     }
 
-    static mailify(answers){
-        let mailContent = "Hello, \nToday's meeting results are shown below.\n";
-        answers.forEach((answer) => {
-            mailContent += "\n" + answer.participant.real_name + " responded:\n\n";
-            answer.answer.forEach((entry, index) => {
-                mailContent += entry.question + "\n" + entry.answer + "\n";
-            });
-        });
 
-        return mailContent;
+    static mailify(answers) {
+        let html = jade.renderFile('./src/views/email.jade', {
+            data: answers
+        });
+        return html;
     }
 }
 
