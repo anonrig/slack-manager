@@ -31,7 +31,7 @@ class meeting extends EventEmitter {
     }
 
 
-    finish(){
+    finish() {
         this.isActive = false;
     }
 
@@ -48,14 +48,13 @@ class meeting extends EventEmitter {
 
         return new Promise((resolve, reject) => {
             async.whilst(() => {
-                return participantCount < that.participants.length
+                return participantCount < that.participants.length;
             },
             (cb) => {
                 let participant = that.participants[participantCount];
                 message.user = participant.id;
 
-                if(!that.isActive)
-                    return;
+                if (!that.isActive) return;
 
                 bot.startConversation(message, (err, convo) => {
                     convo.say('Hello @' + participant.name +
@@ -124,7 +123,7 @@ class meeting extends EventEmitter {
                     });
                 });
             }, (err) => {
-                if(err) return reject(err);
+                if (err) return reject(err);
 
                 bot.say({
                     text: 'Meeting has ended. Results are mailed to ' +
