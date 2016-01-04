@@ -19,6 +19,7 @@ app.set('views', 'src/views');
 app.set('view engine', 'jade');
 
 
+app.use('/public', express.static(__dirname + '/public'));
 /**
  * Redirect all urls to router.
  */
@@ -35,6 +36,11 @@ app.listenServer = () => {
         });
     });
 };
+
+//Prevents app to collapse.
+process.on('uncaughtException', function(err) {
+    console.log(err);
+});
 
 app.bot = require('./bot');
 
