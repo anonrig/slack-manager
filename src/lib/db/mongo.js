@@ -19,9 +19,7 @@ module.exports.connect = () => {
         let connection = mongoose.connect('mongodb://' +
             config.get('mongo:host') + '/' + config.get('mongo:db'));
 
-        mongoose.connection.once('open', function() {
-            resolve();
-        });
+        mongoose.connection.once('open', resolve);
         mongoose.connection.on('error', reject);
     });
 };
