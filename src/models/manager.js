@@ -4,6 +4,8 @@ const Meeting = require('./meeting');
 const _ = require('lodash');
 const config = require('../config');
 const Channel = require('./channel');
+const db = require('./dbutils');
+const MailerModel = require('./mailer');
 
 class manager {
 
@@ -70,7 +72,9 @@ class manager {
                 if (meeting && !meeting.isActive)
                     that.destroy(channelId);
 
-                if (meeting)
+                //meeting variable is not updated after destruciton therefore
+                //prevents restart
+                if (that.meetingExist(channelId))
                     return bot.reply(message,
                         'Sorry, there is an existing meeting in this channel');
 
@@ -80,11 +84,19 @@ class manager {
                 channel
                     .getMembers(channelId)
                     .then((members) => {
+                        db.findOneAndUpdateMember(members);
                         meeting.setMembers(members);
 
                         return meeting.start(bot, message);
                     })
-                    .then(() => {
+                    .then((entries) => {
+
+                        db.createMeeting(entries);
+
+                        let mailContent = MailerModel.mailify(entries);
+                        let mailSender = new MailerModel(mailContent);
+                        mailSender.send();
+
                         that.destroy(channelId);
                     })
                     .catch((err) => {

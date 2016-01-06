@@ -1,7 +1,6 @@
 'use strict';
 
 const _ = require('lodash');
-const MailerModel = require('./mailer');
 const config = require('../config');
 const async = require('async');
 const EventEmitter = require('events').EventEmitter;
@@ -52,7 +51,7 @@ class meeting extends EventEmitter {
             },
             (cb) => {
                 let participant = that.participants[participantCount];
-                message.user = participant.id;
+                //message.user = participant.id;
 
                 if (!that.isActive) return;
 
@@ -131,10 +130,7 @@ class meeting extends EventEmitter {
                     channel: that.channelId
                 });
 
-                let mailContent = MailerModel.mailify(that.answers);
-                let mailSender = new MailerModel(mailContent);
-                mailSender.send();
-                resolve();
+                resolve(that.answers);
             });
         });
     }
