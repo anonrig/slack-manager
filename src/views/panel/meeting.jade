@@ -1,0 +1,13 @@
+div#card-container.ui.segment
+  div.ui.cards
+    each participant in meeting.participants
+      div.ui.card
+        div.content
+          div.right.floated.meta 14h
+          img(src=participant.img).ui.avatar.image
+          =participant.name
+        div.content.menu
+          each dialog in participant.answers
+            h5.item=dialog.question
+            p.item=dialog.answer
+        div.extra.content

@@ -1,0 +1,26 @@
+.bottom-item{
+    position: absolute;
+    margin-bottom: 0;
+}
+
+/*@@media  {
+
+}*/
+
+#feed-div{
+    width: 270px;
+    position: absolute;
+    right: 0;
+}
+
+#middle-content{
+    margin-left: 260px;
+    margin-right: 270px;
+    transition: 0;
+    transform: translate3d(0,0,0);
+}
+
+#card-container{
+    height: 100%;
+    overflow-y: auto;
+}
