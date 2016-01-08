@@ -13,5 +13,9 @@
     "redis": {
       "host": "127.0.0.1",
       "port": 6379
+    },
+    "github": {
+      "repo": "https://api.github.com/repos/USERNAME/REPO/commits",
+      "branch": "panel"
     }
 }
