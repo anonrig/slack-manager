@@ -20,9 +20,11 @@ app.set('view engine', 'jade');
 
 
 app.use('/public', express.static(__dirname + '/public'));
+
 /**
  * Redirect all urls to router.
  */
+app.use('/meetings', require('./routers/meetings'));
 app.use(require('./router'));
 
 
@@ -37,7 +39,7 @@ app.listenServer = () => {
     });
 };
 
-//Prevents app to collapse.
+//Prevents app to collapse. But what about call stack? Hmm.
 process.on('uncaughtException', function(err) {
     console.log(err);
 });
