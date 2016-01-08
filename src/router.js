@@ -3,22 +3,29 @@
 
 const express = require('express');
 const router = express.Router();
-
+const http = require('http');
+const request = require('request');
+const feed = require('./models/feed');
+const db = require('./models/dbutils');
 
 
 /**
- * Lists all of the existing meetings.
+ * Shows panel index.
  */
 router.get('/', (req, res, next) => {
-    res.json({'hello': 'world'});
+    db.getUnreadMeetings().then((docs) => {
+        feed.getFeed(function(err, events) {
+            if (err) console.log(err);
+            res.render('panel/index', {
+                events: events
+            });
+        });
+    });
 });
 
 
-/**
- * Lists a specific meeting result.
- */
-router.get('/meeting/:id', (req, res, next) => {
-    res.json({'example': 'meeting'});
+router.get('/home', (req, res, next) => {
+    res.render('panel/home');
 });
 
 
