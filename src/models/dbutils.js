@@ -4,6 +4,8 @@ const Member = require('../schemas/member');
 const Meeting = require('../schemas/meeting');
 const Participant = require('../schemas/participant');
 const _ = require('lodash');
+const BBPromise = require('bluebird');
+const async = require('async');
 
 
 class dbutils {
@@ -17,7 +19,8 @@ class dbutils {
             }, {
                 slackId: member.id,
                 name: member.profile.real_name,
-                email: member.profile.email
+                email: member.profile.email,
+                img: member.profile.image_72
             }, {
                 upsert: true
             });
@@ -30,34 +33,94 @@ class dbutils {
 
 
     static createMeeting(entries) {
-        let participants = [];
-        //Promise.each is not a function :(
+
+        let tasks = [];
         _.forEach(entries, (entry) => {
-            let id = Member.findBySlackId(entry.participant.id)._id;
-            let answers = entry.answer;
-            let participant = new Participant({
-                memberId: id,
-                answers: answers
-            });
-            participants.push(participant);
+            let query = Member.findBySlackId(entry.participant.id);
+            tasks.push(query);
         });
 
-        let meeting = new Meeting({
-            participants: participants
-        });
+        let participants = [];
+        Promise.all(tasks).then((members) => {
+            BBPromise.each(members, (member, index) => {
+                let participant = new Participant({
+                    memberRef: member._id,
+                    answers: entries[index].answer
+                });
+                participants.push(participant);
+            }).then(() => {
+                let meeting = new Meeting({
+                    participants: participants
+                });
 
-        meeting.save().then(() => {
-            //Update client with a socket notif.
-        }).catch((err) => {});
+                meeting.save().then(() => {}).catch((err) => {
+                    console.log(err);
+                });
+            }).catch();
+        });
     }
 
 
     static getUnreadMeetings() {
+        return Meeting.findByIsRead(false);
+    }
+
+
+    static readMeeting(id) {
+        Meeting.findById(id).then((meeting) => {
+            meeting.read();
+        });
+    }
+
+
+    static getMeetingContent(isRead) {
         return new Promise((resolve, reject) => {
-            Meeting.findUnreads().then((docs) => {
-                resolve(docs.length);
+            Meeting.findByIsRead(isRead).then((docs) => {
+                //Should it be moved to another place?
+                let weekday = new Array(7);
+                weekday[0] = 'Monday';
+                weekday[1] = 'Tuesday';
+                weekday[2] = 'Wednesday';
+                weekday[3] = 'Thursday';
+                weekday[4] = 'Friday';
+                weekday[5] = 'Saturday';
+                weekday[6] = 'Sunday';
+
+                BBPromise.each(docs, (doc) => {
+                    let date = new Date(doc.createdAt);
+                    doc.humandDate = weekday[date.getDay()] + ' - ' +
+                        date.getDate() + '.' + (date.getMonth() + 1) +
+                            '.' + date.getFullYear();
+                }).then((editedDocs) => {
+                    resolve(editedDocs);
+                }).catch((err) => {
+                    reject(err);
+                    console.log('dbutils line 79.' + err);
+                });
             }).catch((err) => {
                 reject(err);
+            });
+        });
+    }
+
+    static getMeetingById(id) {
+        return Meeting.findById(id);
+    }
+
+    static getMeetingDetail(meeting) {
+        let tasks = [];
+        _.forEach(meeting.participants, (participant) => {
+            let query = Member.findById(participant.memberRef);
+            tasks.push(query);
+        });
+        return new Promise((resolve, reject) => {
+            Promise.all(tasks).then((members) => {
+                BBPromise.each(meeting.participants, (participant, index) => {
+                    participant.name = members[index].name;
+                    participant.img = members[index].img;
+                }).then(() => {
+                    resolve(meeting)
+                });
             });
         });
     }

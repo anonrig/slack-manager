@@ -7,7 +7,7 @@ const Member = require('./member');
 
 
 let Participant = new Schema({
-    memberId: {type: Schema.Types.ObjectId, ref: 'Member', required: true},
+    memberRef: {type: Schema.Types.ObjectId, ref: 'Member', required: true},
     answers: {type: Array, required: true},
     isDismissed: {type: Boolean, default: false}
 });

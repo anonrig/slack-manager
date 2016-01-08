@@ -4,10 +4,17 @@
 const mongoose = require('mongoose');
 const Participant = require('./participant');
 const Schema = mongoose.Schema;
+const BBPromise = require('bluebird');
+const db = require('../models/dbutils');
+const _ = require('lodash');
 
 
 let Meeting = new Schema({
-    createdAt: {type: Date, default: Date.now()},
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    humandDate: {type: String, },
     participants: {type: Array, required: true},
     isRead: {type: Boolean, default: false}
 });
@@ -15,11 +22,15 @@ let Meeting = new Schema({
 
 Meeting.methods.read = function() {
     this.isRead = true;
-    return this;
+    return this.save();
 };
 
-Meeting.statics.findUnreads = function() {
-    return this.find({isRead: false});
+Meeting.statics.findByIsRead = function(isRead) {
+    return this.find({isRead: isRead}).sort({createdAt: 'desc'});
+};
+
+Meeting.statics.findById = function(id) {
+    return this.findOne({_id: id});
 };
 
 Meeting.statics.findByMemberId = function(memberId) {
