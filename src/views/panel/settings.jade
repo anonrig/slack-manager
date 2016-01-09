@@ -1,0 +1,79 @@
+div(ng-controller="settingsCtrl")#settings-container.ui.segment.stackable.center.aligned
+    div#input-container.ui.list.very.relaxed
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Slack Token
+                input(placeholder='Token', type='text', required, ng-model="slackToken")
+        div.item
+            div.ui.right.labeled.input.fluid
+                div.ui.label
+                    |  https://
+                input(placeholder='api.github.com/repos/USERNAME/REPO/commits', type='text', required, ng-model="github")
+                div.ui.tag.label
+                    |  GitHub API
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Branch
+                input(placeholder='Default is Master', type='text', ng-model="branch")
+        div.item
+            div.ui.fluid
+                h4(style="text-align: left") Mailer
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Mail Service
+                input(placeholder='Hotmail?/Gmail?', type='text', required, ng-model="mailService")
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Name
+                input(placeholder='Your Name', type='text', required, ng-model="name")
+                div(style="border-bottom-right-radius: 0; border-top-right-radius: 0; margin-left: 10px; margin-right: 0;").ui.label
+                    |  Surname
+                input(style="margin-left: 0; border-left-color: transparent; border-top-left-radius = 0; border-bottom-left-radius = 0;" placeholder='Your Surname', type='text', required, ng-model="surname")
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Mail
+                input(style="border-radius: 0; border-right-color: transparent;", placeholder='yourmail', type='text', required, ng-model="ownerMailLeft")
+                div(style="border-radius: 0;").ui.label
+                    |  @
+                input(style="margin-left:0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: transparent; border-right-color: black important;", placeholder='gmail.com', type='text', required, ng-model="ownerMailRight")
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Mail Password
+                input(placeholder='Pass(Actually it will be stored as plain)', type='password', required, ng-model="mailPass")
+        div.item
+            div.ui.fluid
+                h4(style="text-align: left") Recipients
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Mail To
+                input(style="border-radius: 0; border-right-color: transparent;", placeholder='recepient', type='text', required, ng-model="receiverLeft")
+                div(style="border-radius: 0;").ui.label
+                    |  @
+                input(style="margin-left:0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: transparent; border-right-color: black important;", placeholder='gmail.com', type='text', required, ng-model="receiverRight")
+        div.item
+            div.ui.fluid
+                h4(style="text-align: left") Mongo
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Mongo Host
+                input(placeholder='Default: localhost', type='text', ng-model="mongoHost")
+        div.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  DB
+                input(placeholder='Specify Database Name', type='text', required, ng-model="mongoDb")
+        div.item
+            button(ng-click="sendRequest()").ui.basic.button.fluid
+                i.icon.save
+                |   Save
+
+
+

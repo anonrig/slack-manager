@@ -20,7 +20,21 @@
     transform: translate3d(0,0,0);
 }
 
-#card-container{
+#card-container, #settings-container{
     height: 100%;
     overflow-y: auto;
+    border-radius: 0;
+}
+
+#input-container{
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.noradius-input{
+    margin-left:0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: transparent;
+    border-right-color: black;
 }

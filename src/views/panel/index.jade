@@ -27,7 +27,7 @@ html(lang='en', ng-app='panelModule')
           a(ui-sref="meeting-archive").item
             i.archive.icon
             | Meeting Archive
-          a(style="position: absolute; bottom:0; width: 100%; border-bottom: none !important;").item
+          a(ui-sref="settings", style="position: absolute; bottom:0; width: 100%; border-bottom: none !important;").item
             i.setting.icon
             | Setting
         div(ui-view='')#middle-content.pusher

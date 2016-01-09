@@ -24,6 +24,38 @@ router.get('/', (req, res, next) => {
 });
 
 
+router.get('/settings', (req, res, next) => {
+    if (db.getSetting()) {
+        db.getSetting().then((doc) => {
+            res.render('panel/settings', {setting: doc});
+        });
+    }else {
+        res.render('panel/settings');
+    }
+});
+
+
+router.get('/setting', (req, res, next) => {
+    db.getSetting().then((doc) => {
+        if(doc)
+            res.json(doc);
+        else
+            res.status(404).send();
+    }).catch((err) => {
+        res.status(500).send();
+    });
+});
+
+
+router.post('/setting/new', (req, res, next) => {
+    db.createSetting(req.body).then((doc) => {
+        res.send();
+    }).catch ((err) => {
+        res.statusCode(404).send();
+    });
+});
+
+
 router.get('/home', (req, res, next) => {
     res.render('panel/home');
 });
