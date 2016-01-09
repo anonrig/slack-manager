@@ -3,6 +3,7 @@
 const Member = require('../schemas/member');
 const Meeting = require('../schemas/meeting');
 const Participant = require('../schemas/participant');
+const Setting = require("../schemas/settings");
 const _ = require('lodash');
 const BBPromise = require('bluebird');
 const async = require('async');
@@ -125,6 +126,22 @@ class dbutils {
         });
     }
 
+    static createSetting(request) {
+        //Should be checked here?
+        return Setting.findOneAndUpdate({}, {
+            slackToken: request.slackToken,
+            mailer: request.mailer ? request.mailer : "",
+            mail: request.mail ? request.mail : "",
+            mongo: request.mongo,
+            github: request.github ? request.github : ""
+        }, {
+            upsert: true
+        });
+    }
+
+    static getSetting() {
+        return Setting.findSetting();
+    }
 }
 
 
