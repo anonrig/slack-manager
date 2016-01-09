@@ -2,11 +2,7 @@
 
 
 const mongoose = require('mongoose');
-const Participant = require('./participant');
 const Schema = mongoose.Schema;
-const BBPromise = require('bluebird');
-const db = require('../models/dbutils');
-const _ = require('lodash');
 
 
 let Meeting = new Schema({
