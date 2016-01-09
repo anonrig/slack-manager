@@ -21,8 +21,8 @@ app.set('view engine', 'jade');
 
 
 app.use('/public', express.static(__dirname + '/public'));
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
  * Redirect all urls to router.
@@ -47,7 +47,7 @@ process.on('uncaughtException', function(err) {
     console.log(err);
 });
 
-//app.bot = require('./bot');
+app.bot = require('./bot');
 
 
 module.exports = app;
