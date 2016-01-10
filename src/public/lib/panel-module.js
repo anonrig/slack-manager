@@ -26,7 +26,7 @@ app.run(['$state', function($state) {
 }]);
 
 app.controller('meetingCountCtrl', function($scope, $http) {
-    $http.get('../meetings/unread/count').then((response) => {
+    $http.get('../meetings/unread/count').then(function(response) {
         $scope.meetingNum = response.data.meetingCount;
     });
 });
