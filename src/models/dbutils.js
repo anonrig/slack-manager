@@ -4,6 +4,7 @@ const Member = require('../schemas/member');
 const Meeting = require('../schemas/meeting');
 const Participant = require('../schemas/participant');
 const Setting = require("../schemas/settings");
+const Questions = require("../schemas/questions");
 const _ = require('lodash');
 const BBPromise = require('bluebird');
 const async = require('async');
@@ -141,6 +142,19 @@ class dbutils {
 
     static getSetting() {
         return Setting.findSetting();
+    }
+
+    static getQuestions() {
+        return Questions.findAll();
+    }
+
+    static createOrUpdateQuestions(questionsObj) {
+        return Questions.findOneAndUpdate({title: questionsObj.title}, {
+            title: questionsObj.title,
+            questions: questionsObj.questions
+        }, {
+            upsert: true
+        });
     }
 }
 
