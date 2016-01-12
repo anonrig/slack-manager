@@ -20,7 +20,7 @@
     transform: translate3d(0,0,0);
 }
 
-#card-container, #settings-container{
+#card-container, #settings-container, #question-container{
     height: 100%;
     overflow-y: auto;
     border-radius: 0;

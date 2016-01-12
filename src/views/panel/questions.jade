@@ -1,0 +1,12 @@
+div#question-container.ui.center.aligned.segment
+    div.ui.list.very.relaxed
+        div(ng-repeat="question in questions").ui.item
+            div.ui.labeled.input.fluid
+                div.ui.label
+                    |  Question
+                input(type="text", ng-model="question.question")
+        div.ui.item
+            button(ng-click="addNewQuestion()").ui.labeled.icon.button Add
+                i.plus.icon
+            button(ng-click="sendRequest()").ui.labeled.icon.button Save
+                i.save.icon
