@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const http = require('http');
-const request = require('request');
-const feed = require('../models/feed');
-const Member = require('../schemas/member');
 const db = require('../models/dbutils');
 
 /**
@@ -26,7 +23,6 @@ router.get('/meeting/:id', (req, res, next) => {
 
 router.get('/unread', (req, res, next) => {
     db.getMeetingContent(false).then((docs) => {
-        console.log(docs);
         res.render('panel/meetings', {
             meetings: docs
         });
