@@ -68,6 +68,28 @@ router.get('/user/:id', (req, res, next) => {
     res.json({'user': 'isAwesome'});
 });
 
+router.get('/questions', (req, res, next) => {
+    res.render('panel/questions');
+});
 
+router.get('/questions/list', (req, res, next) => {
+    db.getQuestions().then((doc) => {
+        res.json(doc);
+    }).catch(() => {
+        res.status(500).send();
+    });
+});
+
+router.post('/questions/new', (req, res, next) => {
+    if (req.body.title && req.body.questions) {
+        db.createOrUpdateQuestions(req.body).then((doc) => {
+            res.json(doc);
+        }).catch((err) => {
+            res.status(500).send();
+        });
+    }else {
+        res.status(400).send();
+    }
+});
 
 module.exports = router;
