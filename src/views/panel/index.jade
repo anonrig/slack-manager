@@ -13,12 +13,9 @@ html(lang='en', ng-app='panelModule')
           a(ui-sref="home").item
             i.home.icon
             | Home
-          a.item
+          a(ui-sref="questions").item
             i.plus.icon
-            | Create Meeting
-          a.item
-            i.edit.icon
-            | Edit Meeting
+            | Create/Edit Meeting
           a(ui-sref="meetings").item
             if unread != 0
               div(ng-controller="meetingCountCtrl").ui.teal.label
