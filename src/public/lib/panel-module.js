@@ -1,25 +1,29 @@
 var app = angular.module('panelModule', ['ui.router'])
-    .config(function($stateProvider, $urlRouterProvider) {
-        $stateProvider
-            .state('home', {
-                url: '/home',
-                templateUrl: '/home'
-            }).state('meetings', {
-                url: '/meetings/unread',
-                templateUrl: '/meetings/unread'
-            }).state('meeting', {
-                url: '/meeting/:id',
-                templateUrl: function(params) {
-                    return '/meetings/meeting/' + params.id;
-                }
-            }).state('meeting-archive', {
-                url: '/meetings/archive',
-                templateUrl: '/meetings/archive'
-            }).state('settings', {
-                url: '/settings',
-                templateUrl: '/settings'
-        });
+.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('home', {
+            url: '/home',
+            templateUrl: '/home'
+        }).state('questions', {
+            url: '/questions/create',
+            templateUrl: '/questions',
+            controller: 'questionCtrl'
+        }).state('meetings', {
+            url: '/meetings/unread',
+            templateUrl: '/meetings/unread'
+        }).state('meeting', {
+            url: '/meeting/:id',
+            templateUrl: function(params) {
+                return '/meetings/meeting/' + params.id;
+            }
+        }).state('meeting-archive', {
+            url: '/meetings/archive',
+            templateUrl: '/meetings/archive'
+        }).state('settings', {
+            url: '/settings',
+            templateUrl: '/settings'
     });
+});
 
 app.run(['$state', function($state) {
     $state.transitionTo('home');
@@ -77,8 +81,44 @@ app.controller('settingsCtrl', function ($scope, $http) {
 
         $http.post('/setting/new', request, {
             headers: {ContentType: 'application/json'}
-        }).then(function(response) {
-            console.log(response);
+        });
+    };
+});
+
+app.controller('questionCtrl', function ($scope, $http) {
+    $scope.questions = [{'id': 'question1'}];
+    $http.get('/questions/list').then(function (res) {
+        if(res.data[0].questions) {
+            res.data[0].questions.forEach(function (entry, index) {
+                if ($scope.questions[index])
+                    $scope.questions[index].question = entry;
+                else{
+                    $scope.questions.push({'id':'question'+index});
+                    $scope.questions[index].question = entry;
+                }
+            });
+        }
+    });
+
+    $scope.addNewQuestion = function() {
+        var newItemNo = $scope.questions.length+1;
+        $scope.questions.push({'id':'question'+newItemNo});
+    };
+
+    $scope.sendRequest = function() {
+        var questionList = [];
+        $scope.questions.forEach(function (question) {
+            if(question.question)
+                questionList.push(question.question);
+        });
+
+        $http.post('/questions/new', {
+            title: 'MeetingQuestions',
+            questions: questionList
+        }).then(function (doc) {
+            $scope.questions.forEach(function (question, index) {
+                question.question = doc.data.questions[index];
+            });
         });
     };
 });
