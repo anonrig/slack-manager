@@ -45,7 +45,7 @@ For example for Gmail settings: change your settings file by:
     "mailer": {
         "service": "Gmail",
         "email": "email@address.com",
-        "password": "mySuperFancyPassword"
+        "pass": "mySuperFancyPassword"
     }
 }
 ```
