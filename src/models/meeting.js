@@ -1,7 +1,6 @@
 'use strict';
 
 const _ = require('lodash');
-const MailerModel = require('./mailer');
 const config = require('../config');
 const async = require('async');
 const EventEmitter = require('events').EventEmitter;
@@ -31,7 +30,7 @@ class meeting extends EventEmitter {
     }
 
 
-    finish(){
+    finish() {
         this.isActive = false;
     }
 
@@ -48,14 +47,13 @@ class meeting extends EventEmitter {
 
         return new Promise((resolve, reject) => {
             async.whilst(() => {
-                return participantCount < that.participants.length
+                return participantCount < that.participants.length;
             },
             (cb) => {
                 let participant = that.participants[participantCount];
-                message.user = participant.id;
+                //message.user = participant.id;
 
-                if(!that.isActive)
-                    return;
+                if (!that.isActive) return;
 
                 bot.startConversation(message, (err, convo) => {
                     convo.say('Hello @' + participant.name +
@@ -124,7 +122,7 @@ class meeting extends EventEmitter {
                     });
                 });
             }, (err) => {
-                if(err) return reject(err);
+                if (err) return reject(err);
 
                 bot.say({
                     text: 'Meeting has ended. Results are mailed to ' +
@@ -132,10 +130,7 @@ class meeting extends EventEmitter {
                     channel: that.channelId
                 });
 
-                let mailContent = MailerModel.mailify(that.answers);
-                let mailSender = new MailerModel(mailContent);
-                mailSender.send();
-                resolve();
+                resolve(that.answers);
             });
         });
     }

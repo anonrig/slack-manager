@@ -1,0 +1,73 @@
+html(lang='en', ng-app='panelModule')
+    head
+      link(rel='stylesheet' type='text/css' href='/public/lib/bower_components/semantic/dist/semantic.css')
+      link(rel='stylesheet' type='text/css' href='/public/css/style.css')
+    body
+      script(src="https://code.jquery.com/jquery-2.1.4.min.js")
+      script(src='/public/lib/bower_components/semantic/dist/semantic.js')
+      script(src='/public/lib/bower_components/angular/angular.js')
+      script(src='/public/lib/bower_components/angular-ui-router/release/angular-ui-router.js')
+      script(src='/public/lib/panel-module.js')
+      div.ui.bottom.attached.segment.pushable
+        div.ui.visible.left.vertical.sidebar.menu.inverted
+          a(ui-sref="home").item
+            i.home.icon
+            | Home
+          a(ui-sref="questions").item
+            i.plus.icon
+            | Create/Edit Meeting
+          a(ui-sref="meetings").item
+            if unread != 0
+              div(ng-controller="meetingCountCtrl").ui.teal.label
+                |  {{ meetingNum }}
+            | Unread Meetings
+          a(ui-sref="meeting-archive").item
+            i.archive.icon
+            | Meeting Archive
+          a(ui-sref="settings", style="position: absolute; bottom:0; width: 100%; border-bottom: none !important;").item
+            i.setting.icon
+            | Setting
+        div(ui-view='')#middle-content.pusher
+
+        div#feed-div.ui.visible.right.vertical.sidebar.menu
+          for eventEntry in events
+            if eventEntry.type == 'reply'
+              div.item
+                div.ui.feed
+                  div.event
+                    div.label
+                      img(src=eventEntry.image)
+                    div.content
+                      div.date=eventEntry.date
+                      div.summary
+                        a=eventEntry.real_name
+                        |  responded to your
+                        a(href=eventEntry.meetingUrl) meeting.
+            else if eventEntry.type == 'first'
+              div.item
+                div.ui.feed
+                  div.event
+                    div.label
+                      img(src=eventEntry.image)
+                    div.content
+                      div.date=eventEntry.date
+                      div.summary
+                        a=eventEntry.real_name
+                        |  created a new account.
+            else
+              div.item
+                div.ui.feed
+                  div.event
+                    div.label
+                      img(src=eventEntry.author.avatar_url)
+                    div.content
+                      div.date=eventEntry.commit.committer.date
+                      div.summary
+                        a(href=eventEntry.author.html_url target='_blank')=eventEntry.commit.author.name
+                        |  pushed a
+                        a(href=eventEntry.html_url target='_blank')  commit
+                        |.  Commit message:
+                        br
+                        |"
+                        =eventEntry.commit.message
+                        |"

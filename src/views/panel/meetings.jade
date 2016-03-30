@@ -1,0 +1,12 @@
+div.ui.basic.segment
+  div.ui.middle.aligned.selection.list.divided
+    if meetings.length > 0
+      each entry in meetings
+        div.item
+          div.content
+              a(href='#/meeting/'+entry._id).header=entry.humandDate
+              div.description
+                |  Participant Count:
+                =entry.participants.length
+    else
+      h4 No content to show! 
