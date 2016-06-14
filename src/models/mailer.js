@@ -38,8 +38,8 @@ class mailer {
         this.transporter.sendMail(this.options);
     }
 
-    static mailify(answers){
-        let mailContent = "Hello, \nToday's meeting results are shown below.\n";
+    static mailify(answers, channelName){
+        let mailContent = 'Hello, \nToday\'s meeting results for #'+ channelName + ' are shown below.\n';
         answers.forEach((answer) => {
             mailContent += "\n" + answer.participant.real_name + " responded:\n\n";
             answer.answer.forEach((entry, index) => {

@@ -81,8 +81,12 @@ class manager {
                     .getMembers(channelId)
                     .then((members) => {
                         meeting.setMembers(members);
-
-                        return meeting.start(bot, message);
+                        channel
+                            .getChannelInfo(channelId)
+                            .then((info) => {
+                                meeting.setName(info.name);
+                                return meeting.start(bot, message);
+                            });
                     })
                     .then(() => {
                         that.destroy(channelId);

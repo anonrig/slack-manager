@@ -15,15 +15,29 @@ class channel {
         });
     }
 
-    getMembers(channelId) {
+    getChannelInfo(channelId) {
         let that = this;
 
         return new Promise((resolve, reject) => {
+
             that.webApi.channels.info({
                 channel: channelId
             }, (err, res) => {
                 if (err) return reject(err);
+                resolve(res.channel);
+            });
+        });
+    }
 
+    getMembers(channelId) {
+        let that = this;
+
+        return new Promise((resolve, reject) => {
+
+            that.webApi.channels.info({
+                channel: channelId
+            }, (err, res) => {
+                if (err) return reject(err);
                 resolve(res.channel.members);
             });
         })
