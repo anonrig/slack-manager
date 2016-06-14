@@ -17,11 +17,7 @@ class meeting extends EventEmitter {
     constructor(channelId) {
         super();
         this.channelId = channelId;
-        this.questions = [
-            'What did you do yesterday?',
-            'What are you going to do today?',
-            'Did you encounter any problems?'
-        ];
+        this.channelName = '';
         this.answers = [];
         this.isActive = true;
     }
@@ -46,6 +42,7 @@ class meeting extends EventEmitter {
      * @return {Promise}
      */
     start(bot, message) {
+        this.questions = config.get('questions:' + this.channelName) || config.get('questions:default');
         let that = this;
         let participantCount = 0;
 
