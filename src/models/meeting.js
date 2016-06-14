@@ -30,6 +30,9 @@ class meeting extends EventEmitter {
         this.participants = members;
     }
 
+    setName(name) {
+        this.channelName = name;
+    }
 
     finish(){
         this.isActive = false;
@@ -132,7 +135,7 @@ class meeting extends EventEmitter {
                     channel: that.channelId
                 });
 
-                let mailContent = MailerModel.mailify(that.answers);
+                let mailContent = MailerModel.mailify(that.answers, this.channelName);
                 let mailSender = new MailerModel(mailContent);
                 mailSender.send();
                 resolve();
