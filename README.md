@@ -7,6 +7,7 @@ Advantages of Slack Manager from other services:
   - Free and easy to use.
   - Configurable mail settings.
   - Configurable questions.
+  - Works with multiple channels.
 
 ![alt text](http://new.tinygrab.com/783f33d7b18d7bcd72f1de9785bcbf86e10c3eb82a.png "Slack-Manager")
 
@@ -50,13 +51,40 @@ For example for Gmail settings: change your settings file by:
 }
 ```
 
+Configure your questions
+
+Open default.json and add a questions field shown below.
+
+slack-manager lets users to ask different questions to different channels. If you prefer a single question list
+then you will only need the default field of the questions object. If you want to ask different questions to different channels
+then you will need to add additional fields to the questions object. Fields of the questions object must be the names of the
+corresponding channels.
+
+Note: If no questions that has the same name as the channel found then the default list will be asked.
+
+```
+"questions": {
+    "default": [
+        "What did you do yesterday?",
+        "What are you going to do today?",
+        "Did you encounter any problems?"
+    ],
+    "CHANNEL-NAME": [
+        "How do you feel?"
+    ],
+    "ANOTHER-CHANNEL-NAME": [
+        "Another question?",
+        "Perhaps more?"
+    ]
+}
+```
+
 ## Usage
 
 ### Install dependencies
 ```
 npm install
 ```
-
 
 ### Start your bot.
 
